@@ -1,7 +1,35 @@
-import React, { DragEvent, useState } from 'react';
+import React, { DragEvent, useEffect, useState } from 'react';
+import { BrowserLevel } from 'browser-level'
+
+const currentBackgroundKey = 'current'
+const backgroundImageDb = new BrowserLevel('backgroundImages', { version: 1, prefix: '' })
+const saveBackgroundImage = async (key: string, dataUrl: string): Promise<void> => {
+  if (backgroundImageDb.status !== 'open') {
+    await backgroundImageDb.open()
+  }
+
+  await backgroundImageDb.put(key, dataUrl)
+}
+const loadBackgroundImage = async (key: string): Promise<string> => {
+  if (backgroundImageDb.status !== 'open') {
+    await backgroundImageDb.open()
+  }
+
+  try {
+    return await backgroundImageDb.get(key)
+  } catch (e) {
+    return ''
+  }
+}
+let checkedForBackground = false
 
 const App = () => {
-  const [backgroundImage, setBackgroundImage] = useState('');
+  const [backgroundImage, setBackgroundImage] = useState<string>('');
+
+  useEffect(() => {
+    void loadBackgroundImage(currentBackgroundKey).then(setBackgroundImage)
+    checkedForBackground = true
+  }, [])
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -13,7 +41,9 @@ const App = () => {
     const reader = new FileReader();
     reader.onload = (e: ProgressEvent<FileReader>) => {
       if (e.target?.result) {
-        setBackgroundImage(`url(${e.target.result})`);
+        const dataUrl = `url(${e.target.result})`
+        setBackgroundImage(dataUrl);
+        void saveBackgroundImage(currentBackgroundKey, dataUrl)
       }
     };
 
@@ -24,7 +54,7 @@ const App = () => {
     }
   };
 
-  const message = backgroundImage === ''
+  const message = backgroundImage === '' && checkedForBackground
     ? <div style={{
       display: 'flex',
       justifyContent: 'center',
