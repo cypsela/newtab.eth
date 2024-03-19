@@ -1,0 +1,14 @@
+.Shortcuts {
+  position: fixed; /* Position fixed to keep it on top left */
+  top: 20px;
+  left: 20px;
+  width: 600px;
+  height: 200px;
+  border-radius: 15px; /* Rounded edges */
+  backdrop-filter: blur(10px); /* Blur effect */
+  border: 1px solid rgba(255, 255, 255, 0.18); /* Optional: border for visibility */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Ensures content does not overflow the rounded corners */
+}

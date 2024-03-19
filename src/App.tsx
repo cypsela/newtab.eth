@@ -1,5 +1,6 @@
 import React, { DragEvent, useEffect, useState } from 'react';
 import { BrowserLevel } from 'browser-level'
+import Shortcuts from './components/Shortcuts';
 
 const currentBackgroundKey = 'current'
 const backgroundImageDb = new BrowserLevel('backgroundImages', { version: 1, prefix: '' })
@@ -21,14 +22,12 @@ const loadBackgroundImage = async (key: string): Promise<string> => {
     return ''
   }
 }
-let checkedForBackground = false
 
 const App = () => {
   const [backgroundImage, setBackgroundImage] = useState<string>('');
 
   useEffect(() => {
     void loadBackgroundImage(currentBackgroundKey).then(setBackgroundImage)
-    checkedForBackground = true
   }, [])
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -51,11 +50,14 @@ const App = () => {
       reader.readAsDataURL(file);
     } else {
       setBackgroundImage('')
+      void saveBackgroundImage(currentBackgroundKey, '')
     }
   };
 
-  const message = backgroundImage === '' && checkedForBackground
-    ? <div style={{
+  const backgroundImageSet = backgroundImage !== ''
+
+  const dragAndDropBackgroundImage =
+    <div style={{
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -65,7 +67,6 @@ const App = () => {
     }} >
       Drag and drop an image to set as background.
     </div>
-    : <div />
 
   return (
     <div
@@ -79,7 +80,11 @@ const App = () => {
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
-      {message}
+      {
+        backgroundImageSet
+          ? <Shortcuts />
+          : dragAndDropBackgroundImage
+      }
     </div>
   );
 };
