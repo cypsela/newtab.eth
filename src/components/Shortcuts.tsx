@@ -1,5 +1,5 @@
-import React, { DragEvent } from "react";
-import "../styles/Shortcuts.css";
+import React, { DragEvent } from 'react';
+import '../styles/Shortcuts.css';
 
 // const Shortcut = (url: string) => {
 
@@ -15,13 +15,17 @@ const Shortcuts = () => {
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    const url = e.dataTransfer.getData("text/uri-list");
+    const url = e.dataTransfer.getData('text/uri-list');
     // Handle the dropped URL as needed
     console.log(url); // For demonstration
   };
 
   return (
-    <div className="Shortcuts unselectable" onDragOver={handleDragOver} onDrop={handleDrop}>
+    <div
+      className="Shortcuts unselectable"
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
       Drop Links Here
       {/* <Shortcut /> */}
     </div>

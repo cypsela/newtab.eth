@@ -1,42 +1,42 @@
-import React, { DragEvent, useEffect, useState } from "react";
-import { BrowserLevel } from "browser-level";
-import './App.css'
-import Shortcuts from "./components/Shortcuts";
+import React, { DragEvent, useEffect, useState } from 'react';
+import { BrowserLevel } from 'browser-level';
+import './App.css';
+import Shortcuts from './components/Shortcuts';
 
-const currentBackgroundKey = "current";
-const backgroundImageDb = new BrowserLevel("backgroundImages", {
+const currentBackgroundKey = 'current';
+const backgroundImageDb = new BrowserLevel('backgroundImages', {
   version: 1,
-  prefix: "",
+  prefix: '',
 });
 const saveBackgroundImage = async (
   key: string,
-  dataUrl: string
+  dataUrl: string,
 ): Promise<void> => {
-  if (backgroundImageDb.status !== "open") {
+  if (backgroundImageDb.status !== 'open') {
     await backgroundImageDb.open();
   }
 
   await backgroundImageDb.put(key, dataUrl);
 };
 const loadBackgroundImage = async (key: string): Promise<string> => {
-  if (backgroundImageDb.status !== "open") {
+  if (backgroundImageDb.status !== 'open') {
     await backgroundImageDb.open();
   }
 
   try {
     return await backgroundImageDb.get(key);
   } catch (e) {
-    return "";
+    return '';
   }
 };
-let checkedForBackground = false
+let checkedForBackground = false;
 
 const App = () => {
-  const [backgroundImage, setBackgroundImage] = useState<string>("");
+  const [backgroundImage, setBackgroundImage] = useState<string>('');
 
   useEffect(() => {
     void loadBackgroundImage(currentBackgroundKey).then(setBackgroundImage);
-    checkedForBackground = true
+    checkedForBackground = true;
   }, []);
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -55,26 +55,26 @@ const App = () => {
       }
     };
 
-    if (file instanceof File && file.type.startsWith("image/")) {
+    if (file instanceof File && file.type.startsWith('image/')) {
       reader.readAsDataURL(file);
     } else {
-      setBackgroundImage("");
-      void saveBackgroundImage(currentBackgroundKey, "");
+      setBackgroundImage('');
+      void saveBackgroundImage(currentBackgroundKey, '');
     }
   };
 
-  const backgroundImageSet = backgroundImage !== "";
+  const backgroundImageSet = backgroundImage !== '';
 
   const dragAndDropBackgroundImage = (
     <div
       className="unselectable"
       style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        textAlign: "center",
-        color: "white",
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        textAlign: 'center',
+        color: 'white',
       }}
     >
       Drag and drop an image to set as background.
@@ -84,16 +84,20 @@ const App = () => {
   return (
     <div
       style={{
-        width: "100%",
-        height: "100vh",
-        backgroundSize: "cover",
+        width: '100%',
+        height: '100vh',
+        backgroundSize: 'cover',
         backgroundImage: backgroundImage,
-        backgroundPosition: "center center", // Center the background image
+        backgroundPosition: 'center center', // Center the background image
       }}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
-      {backgroundImageSet ? <Shortcuts /> : checkedForBackground && dragAndDropBackgroundImage}
+      {backgroundImageSet ? (
+        <Shortcuts />
+      ) : (
+        checkedForBackground && dragAndDropBackgroundImage
+      )}
     </div>
   );
 };
