@@ -1,5 +1,6 @@
 import React, { DragEvent, useEffect, useState } from "react";
 import { BrowserLevel } from "browser-level";
+import './App.css'
 import Shortcuts from "./components/Shortcuts";
 
 const currentBackgroundKey = "current";
@@ -66,6 +67,7 @@ const App = () => {
 
   const dragAndDropBackgroundImage = (
     <div
+      className="unselectable"
       style={{
         display: "flex",
         justifyContent: "center",

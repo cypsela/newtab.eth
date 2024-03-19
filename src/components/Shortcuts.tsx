@@ -21,7 +21,7 @@ const Shortcuts = () => {
   };
 
   return (
-    <div className="Shortcuts" onDragOver={handleDragOver} onDrop={handleDrop}>
+    <div className="Shortcuts unselectable" onDragOver={handleDragOver} onDrop={handleDrop}>
       Drop Links Here
       {/* <Shortcut /> */}
     </div>
