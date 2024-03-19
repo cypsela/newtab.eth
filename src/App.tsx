@@ -28,12 +28,14 @@ const loadBackgroundImage = async (key: string): Promise<string> => {
     return "";
   }
 };
+let checkedForBackground = false
 
 const App = () => {
   const [backgroundImage, setBackgroundImage] = useState<string>("");
 
   useEffect(() => {
     void loadBackgroundImage(currentBackgroundKey).then(setBackgroundImage);
+    checkedForBackground = true
   }, []);
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -89,7 +91,7 @@ const App = () => {
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
-      {backgroundImageSet ? <Shortcuts /> : dragAndDropBackgroundImage}
+      {backgroundImageSet ? <Shortcuts /> : checkedForBackground && dragAndDropBackgroundImage}
     </div>
   );
 };
