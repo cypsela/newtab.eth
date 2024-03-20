@@ -29,15 +29,22 @@ const loadBackgroundImage = async (key: string): Promise<string> => {
     return '';
   }
 };
-let checkedForBackground = false;
 
 const App = () => {
   const [backgroundImage, setBackgroundImage] = useState<string>('');
+  const [checkedForBackground, setCheckedForBackground] = useState<boolean>(false)
+  const backgroundImageSet = backgroundImage !== '';
 
   useEffect(() => {
-    void loadBackgroundImage(currentBackgroundKey).then(setBackgroundImage);
-    checkedForBackground = true;
-  }, []);
+    if (!checkedForBackground) {
+      void loadBackgroundImage(currentBackgroundKey)
+        .then((dataUrl: string) => {
+          console.log(dataUrl)
+          setBackgroundImage(dataUrl)
+          setCheckedForBackground(true)
+        })
+    }
+  }, [checkedForBackground]);
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -63,9 +70,7 @@ const App = () => {
     }
   };
 
-  const backgroundImageSet = backgroundImage !== '';
-
-  const dragAndDropBackgroundImage = (
+  const dragAndDropBackgroundHelper = (
     <div
       className="unselectable"
       style={{
@@ -96,7 +101,7 @@ const App = () => {
       {backgroundImageSet ? (
         <Shortcuts />
       ) : (
-        checkedForBackground && dragAndDropBackgroundImage
+        checkedForBackground && dragAndDropBackgroundHelper
       )}
     </div>
   );
