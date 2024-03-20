@@ -1,4 +1,4 @@
-import React, { DragEvent, useEffect, useState } from 'react';
+import { DragEvent, useEffect, useState } from 'react';
 import { BrowserLevel } from 'browser-level';
 import './App.css';
 import Shortcuts from './components/Shortcuts';

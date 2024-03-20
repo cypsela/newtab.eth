@@ -1,4 +1,4 @@
-import React, { DragEvent } from 'react';
+import { DragEvent } from 'react';
 import '../styles/Shortcuts.css';
 
 // const Shortcut = (url: string) => {
