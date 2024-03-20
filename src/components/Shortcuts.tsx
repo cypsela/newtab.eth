@@ -1,5 +1,4 @@
 import { DragEvent } from 'react';
-import '../styles/Shortcuts.css';
 
 // const Shortcut = (url: string) => {
 
@@ -22,11 +21,12 @@ const Shortcuts = () => {
 
   return (
     <div
-      className="Shortcuts unselectable"
+      id='shortcuts'
+      className="unselectable"
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
-      Drop Links Here
+      <p className="sheen-text">Drop Links Here</p>
       {/* <Shortcut /> */}
     </div>
   );

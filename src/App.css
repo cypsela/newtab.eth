@@ -1,6 +1,48 @@
 .unselectable {
-  user-select: none; /* Standard syntax */
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+}
+
+#backgroundImage {
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: top center; /* Center the background image */
+  background-attachment: fixed
+}
+
+#backgroundHelper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+#shortcuts {
+  position: fixed; /* Position fixed to keep it on top left */
+  top: 20px;
+  left: 20px;
+  width: 600px;
+  height: 200px;
+  border-radius: 15px; /* Rounded edges */
+  backdrop-filter: blur(10px); /* Blur effect */
+  border: 1px solid rgba(255, 255, 255, 0.18); /* Optional: border for visibility */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Ensures content does not overflow the rounded corners */
+  /* filter: invert(.3); */
+  mix-blend-mode: difference;
+}
+
+.sheen-text {
+  color: white;
+  mask-image: linear-gradient(-75deg, rgba(0, 0, 0, 0.5) 30%, #fff 50%, rgba(0, 0, 0, 0.5) 70%);
+  mask-size: 200%;
+  animation: sheen 3.5s linear infinite;
+}
+
+@keyframes sheen {
+  from { mask-position: 150%; }
+  to { mask-position: -50%; }
 }

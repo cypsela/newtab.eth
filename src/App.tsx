@@ -10,7 +10,7 @@ const backgroundImageDb = new BrowserLevel('backgroundImages', {
 });
 const saveBackgroundImage = async (
   key: string,
-  dataUrl: string,
+  dataUrl: string
 ): Promise<void> => {
   if (backgroundImageDb.status !== 'open') {
     await backgroundImageDb.open();
@@ -70,17 +70,10 @@ const App = () => {
     }
   };
 
-  const dragAndDropBackgroundHelper = (
+  const backgroundHelper = (
     <div
-      className="unselectable"
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        textAlign: 'center',
-        color: 'white',
-      }}
+      id="backgroundHelper"
+      className="unselectable sheen-text"
     >
       Drag and drop an image to set as background.
     </div>
@@ -88,20 +81,15 @@ const App = () => {
 
   return (
     <div
-      style={{
-        width: '100%',
-        height: '100vh',
-        backgroundSize: 'cover',
-        backgroundImage: backgroundImage,
-        backgroundPosition: 'center center', // Center the background image
-      }}
+      id="backgroundImage"
+      style={{ backgroundImage: backgroundImage }}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
       {backgroundImageSet ? (
         <Shortcuts />
       ) : (
-        checkedForBackground && dragAndDropBackgroundHelper
+        checkedForBackground && backgroundHelper
       )}
     </div>
   );
