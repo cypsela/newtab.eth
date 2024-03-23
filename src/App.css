@@ -5,8 +5,9 @@
 #backgroundImage {
   width: 100%;
   height: 100vh;
-  background-size: cover;
+  background-size: contain;
   background-position: top center; /* Center the background image */
+  background-repeat: no-repeat;
   background-attachment: fixed
 }
 
@@ -23,7 +24,7 @@
   top: 20px;
   left: 20px;
   width: 600px;
-  height: 200px;
+  height: 150px;
   border-radius: 15px; /* Rounded edges */
   backdrop-filter: blur(10px); /* Blur effect */
   border: 1px solid rgba(255, 255, 255, 0.18); /* Optional: border for visibility */
@@ -39,10 +40,10 @@
   color: white;
   mask-image: linear-gradient(-75deg, rgba(0, 0, 0, 0.5) 30%, #fff 50%, rgba(0, 0, 0, 0.5) 70%);
   mask-size: 200%;
-  animation: sheen 3.5s linear infinite;
+  animation: sheen 8s linear infinite;
 }
 
 @keyframes sheen {
-  from { mask-position: 150%; }
-  to { mask-position: -50%; }
+  from { mask-position: 200%; }
+  to { mask-position: -200%; }
 }
