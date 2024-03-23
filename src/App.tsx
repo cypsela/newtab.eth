@@ -39,7 +39,6 @@ const App = () => {
     if (!checkedForBackground) {
       void loadBackgroundImage(currentBackgroundKey)
         .then((dataUrl: string) => {
-          console.log(dataUrl)
           setBackgroundImage(dataUrl)
           setCheckedForBackground(true)
         })
