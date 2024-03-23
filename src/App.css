@@ -24,16 +24,22 @@
   top: 20px;
   left: 20px;
   width: 600px;
-  height: 150px;
+  min-height: 128px;
   border-radius: 15px; /* Rounded edges */
   backdrop-filter: blur(10px); /* Blur effect */
   border: 1px solid rgba(255, 255, 255, 0.18); /* Optional: border for visibility */
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  /* justify-content: center; */
   align-items: center;
   overflow: hidden; /* Ensures content does not overflow the rounded corners */
   /* filter: invert(.3); */
   mix-blend-mode: difference;
+  padding: 10px;
+}
+
+.shortcut {
+  padding: 10.8px
 }
 
 .sheen-text {
