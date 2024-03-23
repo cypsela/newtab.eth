@@ -56,16 +56,19 @@ const App = () => {
     reader.onload = (e: ProgressEvent<FileReader>) => {
       if (e.target?.result) {
         const dataUrl = `url(${e.target.result})`;
-        setBackgroundImage(dataUrl);
-        void saveBackgroundImage(currentBackgroundKey, dataUrl);
+
+        if (dataUrl === backgroundImage) {
+          setBackgroundImage('');
+          void saveBackgroundImage(currentBackgroundKey, '');
+        } else {
+          setBackgroundImage(dataUrl);
+          void saveBackgroundImage(currentBackgroundKey, dataUrl);
+        }
       }
     };
 
     if (file instanceof File && file.type.startsWith('image/')) {
       reader.readAsDataURL(file);
-    } else {
-      setBackgroundImage('');
-      void saveBackgroundImage(currentBackgroundKey, '');
     }
   };
 
