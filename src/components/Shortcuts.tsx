@@ -1,4 +1,32 @@
-import { DragEvent, useState, type SyntheticEvent } from 'react';
+import { DragEvent, useState, type SyntheticEvent, useEffect } from 'react';
+import { BrowserLevel } from 'browser-level'
+
+const currentShortcutsKey = 'current';
+const shortcutUrlsDb = new BrowserLevel('shortcuts', {
+  version: 1,
+  prefix: '',
+});
+const saveShortcutUrls = async (
+  key: string,
+  urls: string[]
+): Promise<void> => {
+  if (shortcutUrlsDb.status !== 'open') {
+    await shortcutUrlsDb.open();
+  }
+
+  await shortcutUrlsDb.put(key, JSON.stringify(urls));
+};
+const loadShortcutUrls = async (key: string): Promise<string[]> => {
+  if (shortcutUrlsDb.status !== 'open') {
+    await shortcutUrlsDb.open();
+  }
+
+  try {
+    return JSON.parse(await shortcutUrlsDb.get(key));
+  } catch (e) {
+    return [];
+  }
+};
 
 const Shortcut = ({ url, key }: { url: string, key: number }) => {
   // Assuming the favicon is located at the root as /favicon.ico
@@ -24,6 +52,22 @@ const Shortcut = ({ url, key }: { url: string, key: number }) => {
 
 const Shortcuts = () => {
   const [urls, setUrls] = useState<string[]>([])
+  const [loaded, setLoaded] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (!loaded) {
+      loadShortcutUrls(currentShortcutsKey).then((urls: string[]) => {
+        setUrls(urls)
+        setLoaded(true)
+      })
+    }
+  }, [loaded])
+
+  useEffect(() => {
+    if (loaded) {
+      saveShortcutUrls(currentShortcutsKey, urls)
+    }
+  }, [urls, loaded])
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault(); // Necessary to allow for dropping
@@ -62,7 +106,7 @@ const Shortcuts = () => {
       {
         existingUrls
           ? urls.map((url: string, key: number)=> Shortcut({ url, key }))
-          : <p className="sheen-text">Drop Links Here</p>
+          : loaded && <p className="sheen-text">Drop Links Here</p>
       }
     </div>
   );
