@@ -30,10 +30,15 @@ const loadBackgroundImage = async (key: string): Promise<string> => {
   }
 };
 
+const dashVisibilityLocalStorageKey = 'dashVisibility'
+
 const App = () => {
   const [backgroundImage, setBackgroundImage] = useState<string>('');
   const [checkedForBackground, setCheckedForBackground] = useState<boolean>(false)
   const backgroundImageSet = backgroundImage !== '';
+
+  const persistedDashVisibility = localStorage.getItem(dashVisibilityLocalStorageKey)
+  const [visibleDash, setDashVisibility] = useState<boolean>(persistedDashVisibility != null ? JSON.parse(persistedDashVisibility) : true)
 
   useEffect(() => {
     if (!checkedForBackground) {
@@ -44,6 +49,26 @@ const App = () => {
         })
     }
   }, [checkedForBackground]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.altKey && event.shiftKey && event.key === 'D') {
+        setDashVisibility(prevState => !prevState);
+      }
+    };
+
+    // Add event listener
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Clean up
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('dashVisibility', JSON.stringify(visibleDash))
+  }, [visibleDash])
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -89,7 +114,7 @@ const App = () => {
       onDrop={handleDrop}
     >
       {backgroundImageSet ? (
-        <Shortcuts />
+        visibleDash && <Shortcuts />
       ) : (
         checkedForBackground && backgroundHelper
       )}
