@@ -38,7 +38,7 @@ const App = () => {
   const backgroundImageSet = backgroundImage !== '';
 
   const persistedDashVisibility = localStorage.getItem(dashVisibilityLocalStorageKey)
-  const [visibleDash, setDashVisibility] = useState<boolean>(persistedDashVisibility != null ? JSON.parse(persistedDashVisibility) : true)
+  const [visibleDash, setDashVisibility] = useState<boolean>(persistedDashVisibility != null ? JSON.parse(persistedDashVisibility) : false)
 
   useEffect(() => {
     if (!checkedForBackground) {
