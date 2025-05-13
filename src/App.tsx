@@ -3,6 +3,8 @@ import { BrowserLevel } from 'browser-level';
 import './App.css';
 import Shortcuts from './components/Shortcuts';
 
+console.log('testing IPNS republishing with fleek')
+
 const currentBackgroundKey = 'current';
 const backgroundImageDb = new BrowserLevel('backgroundImages', {
   version: 1,
